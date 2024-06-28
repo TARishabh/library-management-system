@@ -1,0 +1,183 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "LibraryManagement",
+    "collectionId": "5c119180-758e-45a4-b71e-8645d18accf1",
+    "dateExported": "2024-06-28T09:48:33.146Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "4892a433-f751-42d7-9a98-306424d27700",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Create User",
+            "url": "http://127.0.0.1:8000/api/users/",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-06-28T08:46:05.057Z",
+            "modified": "2024-06-28T08:52:30.248Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"joshs4n_doe\",\n  \"password\": \"secu4repassword123\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"johs4ns.doe@example.com\",\n  \"role\": \"user\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "bb42e7fa-2d94-46cc-91d8-7e6a58f65edb",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Get Users",
+            "url": "http://127.0.0.1:8000/api/users/",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-06-28T08:53:12.416Z",
+            "modified": "2024-06-28T09:34:03.712Z",
+            "headers": []
+        },
+        {
+            "_id": "26bccce9-aaad-4f22-b869-daad9ee4cbbc",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Update User",
+            "url": "http://127.0.0.1:8000/api/users/",
+            "method": "PATCH",
+            "sortNum": 30000,
+            "created": "2024-06-28T08:53:51.600Z",
+            "modified": "2024-06-28T09:24:33.123Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\":4,\n  \"name\":\"Rishabh\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "a880d6b7-9ecd-4761-b41d-0f0c1a42e92a",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Create Author",
+            "url": "http://127.0.0.1:8000/api/author/",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-06-28T09:14:32.391Z",
+            "modified": "2024-06-28T09:15:25.104Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Test\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "e068457d-6b23-4117-a2a2-53b72bc1fe29",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Delete User",
+            "url": "http://127.0.0.1:8000/api/users/",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2024-06-28T09:24:42.926Z",
+            "modified": "2024-06-28T09:24:55.585Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\":4,\n  \"name\":\"Rishabh\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "4d87611f-6b31-4346-89cd-b41594ef2998",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Get Authors",
+            "url": "http://127.0.0.1:8000/api/author/1/",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-06-28T09:18:21.394Z",
+            "modified": "2024-06-28T09:34:08.604Z",
+            "headers": []
+        },
+        {
+            "_id": "8255f257-9d78-4dfe-923c-469984659fb5",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Update Author ",
+            "url": "http://127.0.0.1:8000/api/author/",
+            "method": "PATCH",
+            "sortNum": 50000,
+            "created": "2024-06-28T09:25:16.641Z",
+            "modified": "2024-06-28T09:25:35.323Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\":1,\n  \"name\":\"Test\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "f88374d7-afa0-48e2-8946-f10cb1069021",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Create Book",
+            "url": "http://127.0.0.1:8000/api/book/",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-06-28T09:26:59.737Z",
+            "modified": "2024-06-28T09:36:35.372Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"The Hitchhiker's Guide to the Galaxy\",\n  \"author\": 1,\n  \"ISBN\": \"978-0345393\",\n  \"genre\": \"Fiction\",\n  \"publication_date\": \"2024-06-29\",\n  \"quantity\": 5,\n  \"description\": \"A humorous science fiction comedy series created by Douglas Adams.\",\n  \"cover_image\": \"https://www.example.com/book_cover.jpg\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "81a063c0-a43b-4413-b80d-dd412562a348",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Get Books",
+            "url": "http://127.0.0.1:8000/api/book/",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-06-28T09:29:55.384Z",
+            "modified": "2024-06-28T09:31:14.277Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"The Hitchhiker's Guide to the Galaxy\",\n  \"author\": 1,\n  \"ISBN\": \"978-0345393\",\n  \"genre\": \"Fiction\",\n  \"publication_date\": \"2024-06-29\",\n  \"quantity\": 5,\n  \"description\": \"A humorous science fiction comedy series created by Douglas Adams.\",\n  \"cover_image\": \"https://www.example.com/book_cover.jpg\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "52b1752f-6222-4e9f-860f-fd3b58c992c1",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Issue A Book",
+            "url": "http://127.0.0.1:8000/api/issuedbooks/",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2024-06-28T09:36:41.929Z",
+            "modified": "2024-06-28T09:39:06.997Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"book\": 1,\n  \"user\": 2,   \n  \"due_date\": \"2024-07-29\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "0e52dfaf-6e47-4f09-8fbb-7a2afbd29c6c",
+            "colId": "5c119180-758e-45a4-b71e-8645d18accf1",
+            "containerId": "",
+            "name": "Get all issued Book details",
+            "url": "http://127.0.0.1:8000/api/issuedbooks/",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2024-06-28T09:39:21.849Z",
+            "modified": "2024-06-28T09:39:37.497Z",
+            "headers": []
+        }
+    ],
+    "ref": "ck3Q2r1b7ag3_FqlLAnsCgyhV3thjAgJj3000YHwQGxZ6cXXwSDWjbfHYWVNH4Ljtmmyc8O3zAvRffiTyZVwwA"
+}
