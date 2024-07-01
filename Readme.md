@@ -73,3 +73,40 @@ python manage.py runserver
 ```
 
 Open http://127.0.0.1:8000/ in your web browser to access the API endpoints.
+
+
+views.py file flow:
+Assume you have called the api http://127.0.0.1:8000/ with get request (list action), now the flow is:
+Request Handling:
+
+When a GET request for listing users (/api/users/) is received, Django REST framework maps this to the list() method of ListModelMixin.
+
+Django REST Framework Flow:
+
+The request enters the list() method of ListModelMixin, which then delegates to the appropriate method based on the HTTP method.
+In a GET request for listing (list() action), it will call get_queryset() to retrieve the queryset of User objects.
+get_queryset() Method:
+
+The get_queryset() method of UserViewSet is called. It executes super().get_queryset(), which returns the queryset defined at the class level (User.objects.all()). Example:
+
+def get_queryset(self):
+    queryset = super().get_queryset()  # Returns User.objects.all()
+    return queryset
+
+Serializer and Pagination:
+
+After retrieving the queryset, Django REST framework prepares to serialize the queryset using UserSerializer.
+Pagination is applied if configured (TaskPagination).
+Custom Renderer Context:
+
+Before rendering the response, Django REST framework calls get_renderer_context() of UserViewSet.
+In get_renderer_context(), it updates the renderer context with message and status_code based on the response_data dictionary for list action.
+CustomRenderer Class:
+
+Finally, the response data is passed to CustomRenderer.render() method.
+Inside CustomRenderer.render(), it retrieves the message and status_code from renderer_context.
+Constructs a response dictionary including message, status, code, data, and optionally page_info if present in the response data.
+If the status code does not start with '2' (indicating success), it adjusts the response to mark it as an error.
+Response:
+
+The constructed response dictionary is rendered into JSON format by CustomRenderer, ensuring consistent formatting and including custom messages and status codes.

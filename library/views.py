@@ -1,158 +1,237 @@
-from rest_framework import viewsets,status,permissions
+from rest_framework import status, permissions,viewsets
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
-# from library.permission import IsLibrarianOrReadOnly
-from .models import User, Author, Book, IssuedBook
+from django.shortcuts import get_object_or_404
 from .serializers import UserSerializer, AuthorSerializer, BookSerializer, IssuedBookSerializer
 from .pagination import TaskPagination
+from .models import User, Author, Book, IssuedBook
+from .renderers import CustomRenderer
 
-
-# Create your views here.
-
-class UserViewSet(viewsets.ModelViewSet):
+'''The Flow of this v4 is also explained in the README.md file'''
+class UserViewSet(
+    ListModelMixin, CreateModelMixin, RetrieveModelMixin,
+    UpdateModelMixin, DestroyModelMixin, viewsets.GenericViewSet
+):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # http_method_names = ['GET', 'POST', 'PUT', 'DELETE','PATCH']
     pagination_class = TaskPagination
     permission_classes = [permissions.AllowAny]
+    renderer_classes = [CustomRenderer]
+
+    response_data = {
+        "list": {
+            "message": "List of user records",
+            "status_code": status.HTTP_200_OK
+        },
+        "retrieve": {
+            "message": "Requested user record retrieved",
+            "status_code": status.HTTP_200_OK
+        },
+        "partial_update": {
+            "message": "Requested user record updated",
+            "status_code": status.HTTP_202_ACCEPTED
+        },
+        "destroy": {
+            "message": "Requested user record deleted",
+            "status_code": status.HTTP_204_NO_CONTENT
+        },
+        "create": {
+            "message": "New user record created",
+            "status_code": status.HTTP_201_CREATED
+        }
+    }
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
+        return super().get_queryset()
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self):
+        return super().get_object()
 
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_serializer_class(self):
+        return super().get_serializer_class()
 
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
 
-class AuthorViewSet(viewsets.ModelViewSet):
+    def get_renderer_context(self):
+        context = super().get_renderer_context()
+        if self.action in self.response_data:
+            context["message"] = (
+                self.response_data.get(self.action).get("message")
+            )
+            context["status_code"] = (
+                self.response_data.get(self.action).get("status_code")
+            )
+        return context
+
+class AuthorViewSet(
+    ListModelMixin, CreateModelMixin, RetrieveModelMixin,
+    UpdateModelMixin, DestroyModelMixin, viewsets.GenericViewSet
+):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     permission_classes = [permissions.AllowAny]
+    renderer_classes = [CustomRenderer]
+
+    response_data = {
+        "list": {
+            "message": "List of author records",
+            "status_code": status.HTTP_200_OK
+        },
+        "retrieve": {
+            "message": "Requested author record retrieved",
+            "status_code": status.HTTP_200_OK
+        },
+        "partial_update": {
+            "message": "Requested author record updated",
+            "status_code": status.HTTP_202_ACCEPTED
+        },
+        "destroy": {
+            "message": "Requested author record deleted",
+            "status_code": status.HTTP_204_NO_CONTENT
+        },
+        "create": {
+            "message": "New author record created",
+            "status_code": status.HTTP_201_CREATED
+        }
+    }
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
+        return super().get_queryset()
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            author = serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self):
+        return super().get_object()
 
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        if serializer.is_valid():
-            author = serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_serializer_class(self):
+        return super().get_serializer_class()
 
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
 
-class BookViewSet(viewsets.ModelViewSet):
+    def get_renderer_context(self):
+        context = super().get_renderer_context()
+        if self.action in self.response_data:
+            context["message"] = (
+                self.response_data.get(self.action).get("message")
+            )
+            context["status_code"] = (
+                self.response_data.get(self.action).get("status_code")
+            )
+        return context
+
+class BookViewSet(
+    ListModelMixin, CreateModelMixin, RetrieveModelMixin,
+    UpdateModelMixin, DestroyModelMixin, viewsets.GenericViewSet
+):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.AllowAny]
+    renderer_classes = [CustomRenderer]
+
+    response_data = {
+        "list": {
+            "message": "List of book records",
+            "status_code": status.HTTP_200_OK
+        },
+        "retrieve": {
+            "message": "Requested book record retrieved",
+            "status_code": status.HTTP_200_OK
+        },
+        "partial_update": {
+            "message": "Requested book record updated",
+            "status_code": status.HTTP_202_ACCEPTED
+        },
+        "destroy": {
+            "message": "Requested book record deleted",
+            "status_code": status.HTTP_204_NO_CONTENT
+        },
+        "create": {
+            "message": "New book record created",
+            "status_code": status.HTTP_201_CREATED
+        }
+    }
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
+        return super().get_queryset()
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            author_id = request.data.get('author')
-            try:
-                author_instance = Author.objects.get(pk=author_id)
-            except Author.DoesNotExist:
-                return Response({"error": "Author with given ID does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self):
+        return super().get_object()
 
-            serializer.validated_data['author'] = author_instance
+    def get_serializer_class(self):
+        return super().get_serializer_class()
 
-            book = serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        if serializer.is_valid():
-            book = serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-class IssuedBookViewSet(viewsets.ModelViewSet):
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+    def get_renderer_context(self):
+        context = super().get_renderer_context()
+        if self.action in self.response_data:
+            context["message"] = (
+                self.response_data.get(self.action).get("message")
+            )
+            context["status_code"] = (
+                self.response_data.get(self.action).get("status_code")
+            )
+        return context
+class IssuedBookViewSet(
+    ListModelMixin, CreateModelMixin, RetrieveModelMixin,
+    UpdateModelMixin, DestroyModelMixin, viewsets.GenericViewSet
+):
     queryset = IssuedBook.objects.all()
     serializer_class = IssuedBookSerializer
     permission_classes = [permissions.AllowAny]
+    renderer_classes = [CustomRenderer]
+
+    response_data = {
+        "list": {
+            "message": "List of issued book records",
+            "status_code": status.HTTP_200_OK
+        },
+        "retrieve": {
+            "message": "Requested issued book record retrieved",
+            "status_code": status.HTTP_200_OK
+        },
+        "partial_update": {
+            "message": "Requested issued book record updated",
+            "status_code": status.HTTP_202_ACCEPTED
+        },
+        "destroy": {
+            "message": "Requested issued book record deleted",
+            "status_code": status.HTTP_204_NO_CONTENT
+        },
+        "create": {
+            "message": "New issued book record created",
+            "status_code": status.HTTP_201_CREATED
+        }
+    }
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
+        return super().get_queryset()
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            book_id = request.data.get('book')
-            user_id = request.data.get('user')
-            try:
-                book_instance = Book.objects.get(pk=book_id)
-            except Book.DoesNotExist:
-                return Response({"error": "Book with given ID does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self):
+        return super().get_object()
 
-            try:
-                user_instance = User.objects.get(pk=user_id)
-            except User.DoesNotExist:
-                return Response({"error": "User with given ID does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+    def get_serializer_class(self):
+        return super().get_serializer_class()
 
-            serializer.validated_data['book'] = book_instance
-            serializer.validated_data['user'] = user_instance
-
-            issued_book = serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        if serializer.is_valid():
-            issued_book = serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+    
+    def get_renderer_context(self):
+        context = super().get_renderer_context()
+        if self.action in self.response_data:
+            context["message"] = (
+                self.response_data.get(self.action).get("message")
+            )
+            context["status_code"] = (
+                self.response_data.get(self.action).get("status_code")
+            )
+        return context
